@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
 
-    <t t-extend="mail.systray.ActivityMenu">
-        <t t-jquery=".o_mail_systray_dropdown_items" t-operation="before">
-            <div class="o_mail_systray_dropdown_top">
-                <div>
-                    <button
+    <t t-inherit="mail.ActivityMenuView" t-inherit-mode="extension" owl="1">
+        <xpath
+            expr="//div[hasclass('o_ActivityMenuView_activityGroups')]"
+            position="before"
+        >
+             <div class="o_mail_systray_dropdown_top">
+                <nav class="nav nav-pills nav-fill">
+                    <a
                         type="button"
-                        class="my_activities btn btn-link o_filter_button active"
+                        class="nav-link active"
                         data-filter='my'
-                        role="tab"
-                    > My Activities </button>
-                    <button
+                        href="#"
+                        t-on-click="activityMenuView.onClickDropdownToggle"
+                    >
+                    My Activities </a>
+                    <a
                         type="button"
-                        class="team_activities btn btn-link o_filter_button"
+                        class="nav-link"
                         data-filter='team'
-                        role="tab"
-                    > Team Activities </button>
-                </div>
+                        href="#"
+                        t-on-click="activityMenuView.onClickDropdownToggle"
+                    >
+                    Team Activities </a>
+                </nav>
             </div>
-        </t>
+        </xpath>
     </t>
-
 </templates>

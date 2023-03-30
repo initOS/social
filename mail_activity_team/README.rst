@@ -14,7 +14,7 @@ Mail Activity Team
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fsocial-lightgray.png?logo=github
-    :target: https://github.com/OCA/social/tree/15.0/mail_activity_team
+    :target: https://github.com/OCA/social/tree/16.0/mail_activity_team
     :alt: OCA/social
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/social-15-0/social-15-0-mail_activity_team
@@ -43,7 +43,7 @@ Usage
 To set up new teams:
 
 #. Go to *Settings / Activate developer mode*
-#. Go to *Settings / Technical / Email / Activity Teams*
+#. Go to *Settings / Technical / Discuss / Activity Teams*
 #. Create a new Team and assign (optionally) the models in which it will
    be used, and the members of the team.
 
@@ -90,10 +90,15 @@ Contributors
   * Jordi Ballester Alomar (jordi.ballester@forgeflow.com)
   * Miquel Raïch (miquel.raich@forgeflow.com)
   * Bernat Puig Font (bernat.puig@forgeflow.com)
-* Pedro Gonzalez (pedro.gonzalez@pesol.es)
+  * Pedro Gonzalez (pedro.gonzalez@pesol.es)
+
 * `Tecnativa <https://www.tecnativa.com>`_:
 
   * David Vidal
+
+* `InitOS <https://www.initos.com>`_:
+
+  * Dhara Solanki <dhara.solanki@initos.com>
 
 Maintainers
 ~~~~~~~~~~~
@@ -108,6 +113,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/social <https://github.com/OCA/social/tree/15.0/mail_activity_team>`_ project on GitHub.
+This module is part of the `OCA/social <https://github.com/OCA/social/tree/16.0/mail_activity_team>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

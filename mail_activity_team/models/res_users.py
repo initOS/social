@@ -51,6 +51,7 @@ class ResUsers(models.Model):
             if not user_activities.get(activity["model"]):
                 user_activities[activity["model"]] = {
                     "name": model_names[activity["id"]],
+                    "id": activity["id"],
                     "model": activity["model"],
                     "type": "activity",
                     "icon": modules.module.get_module_icon(
@@ -64,9 +65,7 @@ class ResUsers(models.Model):
             user_activities[activity["model"]][
                 "%s_count" % activity["states"]
             ] += activity["count"]
-            if (
-                activity["states"] in ("today", "overdue")
-                and activity["user_id"] != user
-            ):
+            if activity["states"] in ("today", "overdue"):
                 user_activities[activity["model"]]["total_count"] += activity["count"]
+
         return list(user_activities.values())

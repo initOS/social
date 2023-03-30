@@ -31,6 +31,7 @@ addon | version | maintainers | summary
 [mass_mailing_contact_active](mass_mailing_contact_active/) | 16.0.1.0.0 |  | Adds active feature on mailing list contact and subscriptions
 [mass_mailing_list_dynamic](mass_mailing_list_dynamic/) | 16.0.1.0.0 |  | Mass mailing lists that get autopopulated
 [mass_mailing_partner](mass_mailing_partner/) | 16.0.1.0.0 |  | Link partners with mass-mailing
+[mail_activity_team](mail_activity_team/) | 16.0.1.0.0 |  | Mail Activity Team
 
 [//]: # (end addons)
 

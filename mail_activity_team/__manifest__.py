@@ -23,10 +23,8 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "mail_activity_team/static/src/js/systray.esm.js",
-        ],
-        "web.assets_qweb": [
             "mail_activity_team/static/src/xml/systray.xml",
+            "mail_activity_team/static/src/js/systray.esm.js",
         ],
     },
 }
