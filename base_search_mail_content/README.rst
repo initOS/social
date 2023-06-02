@@ -14,7 +14,7 @@ Base Search Mail Content
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fsocial-lightgray.png?logo=github
-    :target: https://github.com/OCA/social/tree/15.0/base_search_mail_content
+    :target: https://github.com/OCA/social/tree/16.0/base_search_mail_content
     :alt: OCA/social
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/social-15-0/social-15-0-base_search_mail_content
@@ -99,6 +99,8 @@ Contributors
   * Vicent Cubells
   * Ernesto Tejeda
 
+* Dhara Solanki <dhara.solanki@initos.com>
+
 Maintainers
 ~~~~~~~~~~~
 
@@ -112,6 +114,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/social <https://github.com/OCA/social/tree/15.0/base_search_mail_content>`_ project on GitHub.
+This module is part of the `OCA/social <https://github.com/OCA/social/tree/16.0/base_search_mail_content>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

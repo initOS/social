@@ -7,3 +7,5 @@
 
   * Vicent Cubells
   * Ernesto Tejeda
+
+* Dhara Solanki <dhara.solanki@initos.com>

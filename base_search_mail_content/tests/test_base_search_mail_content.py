@@ -20,6 +20,6 @@ class TestBaseSearchMailContent(TransactionCase):
         )
         self.assertIn(
             "message_content",
-            res["fields_views"]["search"]["fields"],
+            res["models"][self.channel_obj._name],
             "message_content field was not detected",
         )
