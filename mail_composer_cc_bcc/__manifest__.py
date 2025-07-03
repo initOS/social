@@ -16,6 +16,12 @@
     "depends": [
         "mail",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "mail_composer_cc_bcc/static/src/*.js",
+            "mail_composer_cc_bcc/static/src/*.xml",
+        ],
+    },
     "data": [
         "views/res_company_views.xml",
         "views/mail_mail_views.xml",

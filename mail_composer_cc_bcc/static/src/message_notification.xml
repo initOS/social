@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+     <t
+        t-name="mail_composer_cc_bcc.MessageNotificationPopoverContent"
+        t-inherit="mail.MessageNotificationPopoverContent"
+        t-inherit-mode="extension"
+        owl="1"
+    >
+        <xpath
+            expr="//div[hasclass('o_MessageNotificationPopoverContent_notification')]"
+            position="inside"
+        >
+            <i t-if="notification.recipient_type === 'cc'">(CC)</i>
+            <i t-elif="notification.recipient_type === 'bcc'">(BCC)</i>
+        </xpath>
+    </t>
+</templates>
