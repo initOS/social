@@ -10,8 +10,8 @@
             expr="//div[hasclass('o_MessageNotificationPopoverContent_notification')]"
             position="inside"
         >
-            <i t-if="notification.recipient_type === 'cc'">(CC)</i>
-            <i t-elif="notification.recipient_type === 'bcc'">(BCC)</i>
+            <i t-if="notification.recipient_type === 'cc'"> (CC)</i>
+            <i t-elif="notification.recipient_type === 'bcc'"> (BCC)</i>
         </xpath>
     </t>
 </templates>
