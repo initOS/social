@@ -14,7 +14,7 @@ class MailNotification(models.Model):
             notif = self.browse(notif_vals["id"])
             if notif.res_partner_id in notif.mail_message_id.recipient_cc_ids:
                 notif_vals["recipient_type"] = "cc"
-            elif notif.res_partner_id in notif.mail_message_id.recipient_cc_ids:
+            elif notif.res_partner_id in notif.mail_message_id.recipient_bcc_ids:
                 notif_vals["recipient_type"] = "bcc"
             else:
                 notif_vals["recipient_type"] = "to"
