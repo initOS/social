@@ -52,7 +52,7 @@ class MailComposeMessage(models.TransientModel):
         # tpl_partners_only need to be False for email_cc value
         tmpl_ctx = self.env["mail.template"].with_context(tpl_partners_only=False)
         mail_tmpl = tmpl_ctx.browse(template_id)
-        template_values = mail_tmpl.generate_email(res_ids, CC_BCC_FIELDS)
+        template_values = mail_tmpl.generate_email(res_ids, list(CC_BCC_FIELDS))
         values = template_values[res_id]
         for fname in CC_BCC_FIELDS:
             value = values.get(fname, None)
