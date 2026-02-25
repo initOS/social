@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t
+        t-name="mail_activity_team.Activity"
+        t-inherit="mail.Activity"
+        t-inherit-mode="extension"
+    >
+        <!-- Show team in the condensed view -->
+        <xpath
+            expr="//div/div/div[hasclass('o-mail-Activity-info')]/span[hasclass('o-mail-Activity-user')]"
+            position="after"
+        >
+            <span
+                class="o-mail-Activity-user px-1"
+                t-if="props.activity.team_id"
+            >(Team <t t-esc="props.activity.team_id[1]" />)
+            </span>
+        </xpath>
+        <!-- Show team in the expanded view -->
+        <xpath
+            expr="//t[@t-esc='props.activity.user_id.name']/parent::td/parent::tr"
+            position="after"
+        >
+            <tr t-if="props.activity.team_id">
+                <td class="text-end fw-bolder">Team</td>
+                <td>
+                    <t t-esc="props.activity.team_id[1]" />
+                </td>
+            </tr>
+        </xpath>
+    </t>
+
+</templates>

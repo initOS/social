@@ -19,29 +19,15 @@ class MailActivityMixin(models.AbstractModel):
             rec.activity_team_user_ids = rec.activity_ids.mapped("team_id.member_ids")
 
     def _search_my_activity_date_deadline(self, operator, operand):
-        if not self._context.get("team_activities", False):
+        if not self.env.context.get("team_activities", False):
             return super()._search_my_activity_date_deadline(operator, operand)
-        query = """
-        SELECT res_users_id
-        FROM mail_activity_team_users_rel
-        WHERE mail_activity_team_id IN (
-            SELECT mail_activity_team_id
-            FROM mail_activity_team_users_rel
-            WHERE res_users_id = %(user_id)s)
-        """
-        user = self.env.uid
-        self.env.cr.execute(
-            query,
-            {
-                "user_id": user,
-            },
-        )
-        users = [row[0] for row in self.env.cr.fetchall()]
         activity_ids = self.env["mail.activity"]._search(
             [
                 ("date_deadline", operator, operand),
                 ("res_model", "=", self._name),
-                ("user_id", "in", users),
+                "|",
+                ("user_id", "=", self.env.user.id),
+                ("team_id", "in", self.env.user.activity_team_ids.ids),
             ]
         )
         return [("activity_ids", "in", activity_ids)]
@@ -94,5 +80,47 @@ class MailActivityMixin(models.AbstractModel):
             date_deadline=date_deadline,
             summary=summary,
             note=note,
-            **act_values
+            **act_values,
+        )
+
+    @api.depends(
+        "activity_ids.date_deadline", "activity_ids.user_id", "activity_ids.team_id"
+    )
+    @api.depends_context("uid")
+    def _compute_my_activity_date_deadline(self):
+        for record in self:
+            record.my_activity_date_deadline = next(
+                (
+                    activity.date_deadline
+                    for activity in record.activity_ids
+                    if activity.user_id.id == record.env.uid
+                    or activity.team_id in record.env.user.activity_team_ids
+                ),
+                False,
+            )
+
+    @api.model
+    def web_search_read(
+        self, domain, specification, offset=0, limit=None, order=None, count_limit=None
+    ):
+        """Intercept the queries from the systray widget and apply team search.
+
+        This allows the frontend widget to direct the user to their team activities
+        Late/Today/Future.
+        """
+        if self.env.context.get("team_activities"):
+            orig_domain = domain
+            domain = []
+            for clause in orig_domain:
+                if isinstance(clause, list | tuple) and clause[0] == "activity_user_id":
+                    domain.append(("activity_team_user_ids", clause[1], clause[2]))
+                else:
+                    domain.append(clause)
+        return super().web_search_read(
+            domain,
+            specification,
+            offset=offset,
+            limit=limit,
+            order=order,
+            count_limit=count_limit,
         )

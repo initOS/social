@@ -1,20 +1,17 @@
 <?xml version="1.0" ?>
 <odoo>
-
     <record id="mail_activity_view_form_popup" model="ir.ui.view">
         <field name="name">mail.activity.view.form.popup</field>
         <field name="model">mail.activity</field>
         <field name="inherit_id" ref="mail.mail_activity_view_form_popup" />
         <field name="arch" type="xml">
             <field name="user_id" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('team_id', '!=', False)]}</attribute>
+                <attribute name="invisible">team_id</attribute>
             </field>
             <field name="user_id" position="after">
                 <field
                     name="team_user_id"
-                    attrs="{'invisible': [('team_id', '=', False)]}"
+                    invisible="not team_id"
                     domain="[('activity_team_ids', '=', team_id)]"
                 />
                 <field
@@ -25,7 +22,6 @@
             </field>
         </field>
     </record>
-
     <record id="mail_activity_view_tree" model="ir.ui.view">
         <field name="name">mail.activity.view.tree</field>
         <field name="model">mail.activity</field>
@@ -37,71 +33,40 @@
         </field>
     </record>
 
-    <record id="mail_activity_view_form_board" model="ir.ui.view">
-        <field name="name">mail.activity.view.form</field>
+    <record id="mail_activity_view_kanban_open_target" model="ir.ui.view">
+        <field name="name">mail.activity.boards.view.kanban</field>
         <field name="model">mail.activity</field>
-        <field
-            name="inherit_id"
-            ref="mail_activity_board.mail_activity_view_form_board"
-        />
+        <field name="inherit_id" ref="mail.mail_activity_view_kanban_open_target" />
         <field name="arch" type="xml">
-            <field name="user_id" position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('team_id', '=', False)]}</attribute>
-            </field>
-            <field name="user_id" position="after">
-                <field
-                    name="team_user_id"
-                    attrs="{'invisible': [('team_id', '!=', False)]}"
-                    domain="[('activity_team_ids', '=', team_id)]"
-                />
-                <field
-                    name="team_id"
-                    domain="['|', ('res_model_ids', '=', False), ('res_model_ids', '=', res_model_id)]"
-                />
-            </field>
+            <xpath expr="//footer" position="before">
+                <div>
+                    <span class="fw-bold">Team: </span>
+                    <field name="team_id" />
+                </div>
+            </xpath>
         </field>
     </record>
 
-     <record id="mail_activity_view_kanban" model="ir.ui.view">
-         <field name="name">mail.activity.boards.view.kanban</field>
-         <field name="model">mail.activity</field>
-         <field name="inherit_id" ref="mail_activity_board.mail_activity_view_kanban" />
-         <field name="arch" type="xml">
-             <field name="user_id" position="after">
-                 <field name="team_id" />
-             </field>
-             <xpath expr="//div[hasclass('oe_kanban_content')]" position="inside">
-                 <br />
-                 <div>
-                     Team: <field name="team_id" />
-                 </div>
-             </xpath>
-         </field>
-    </record>
-
-        <!-- SEARCH VIEW -->
+    <!-- SEARCH VIEW -->
     <record id="mail_activity_view_search" model="ir.ui.view">
         <field name="name">mail.activity.boards.view.search</field>
         <field name="model">mail.activity</field>
-        <field name="inherit_id" ref="mail_activity_board.mail_activity_view_search" />
+        <field name="inherit_id" ref="mail.mail_activity_view_search" />
         <field name="priority" eval="2" />
         <field name="arch" type="xml">
-            <xpath expr='//field[@name="user_id"]' position='before'>
+            <xpath expr='//field[@name="activity_type_id"]' position='after'>
                 <field name="team_id" />
             </xpath>
-            <xpath expr='//filter[@name="activities_6_month"]' position='after'>
+            <xpath expr='//filter[@name="filter_user_id_uid"]' position='after'>
                 <filter
                     name="my_team_activities"
                     string="My Team Activities"
                     domain="[('team_id.member_ids', '=', uid)]"
                 />
             </xpath>
-            <group position='inside'>
-                <filter name='team' string="Team" context="{'group_by': 'team_id'}" />
-            </group>
+            <filter name='group_by_user_id' position='after'>
+                <filter name='group_by_team_id' context="{'group_by': 'team_id'}" />
+            </filter>
         </field>
-
     </record>
 </odoo>

@@ -1,7 +1,7 @@
 # Copyright 2018-22 ForgeFlow S.L.
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import SUPERUSER_ID, _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -20,14 +20,34 @@ class MailActivity(models.Model):
             )
         return self.env["mail.activity.team"].search(domain, limit=1)
 
-    user_id = fields.Many2one(string="User", required=False)
+    user_id = fields.Many2one(string="User", required=False, default=False)
     team_user_id = fields.Many2one(
         string="Team user", related="user_id", readonly=False
     )
 
     team_id = fields.Many2one(
-        comodel_name="mail.activity.team", default=lambda s: s._get_default_team_id()
+        comodel_name="mail.activity.team",
+        default=lambda s: s._get_default_team_id(),
+        index=True,
     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Differently from the previous odoo version,
+        # the create method is called from (mail.activity.mixin).activity_schedule()
+        # and on this method we are forcing the user_id to be the current user from
+        # odoo import api, fields, models the default one linked to the activity type.
+        # We don't want this behavior because using the team_id, we want to assign the
+        # activity to the whole team.
+        for vals in vals_list:
+            # we need to be sure that we are in a context where the team_id is set,
+            # and we don't want to use user_id
+            if vals.get("team_id"):
+                # using team, we have user_id = team_user_id,
+                # so if we don't have a user_team_id we don't want user_id too
+                if "user_id" in vals and not vals.get("team_user_id", False):
+                    del vals["user_id"]
+        return super().create(vals_list)
 
     @api.onchange("user_id")
     def _onchange_user_id(self):
@@ -61,14 +81,14 @@ class MailActivity(models.Model):
             # We must consider also users that could be archived but come from
             # an automatic scheduled activity
             if (
-                activity.user_id.id != SUPERUSER_ID
+                activity.user_id.id != api.SUPERUSER_ID
                 and activity.team_id
                 and activity.user_id
                 and activity.user_id
                 not in activity.team_id.with_context(active_test=False).member_ids
             ):
                 raise ValidationError(
-                    _(
+                    self.env._(
                         "The assigned user %(user_name)s is "
                         "not member of the team %(team_name)s.",
                         user_name=activity.user_id.name,

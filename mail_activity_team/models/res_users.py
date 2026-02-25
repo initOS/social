@@ -13,9 +13,9 @@ class ResUsers(models.Model):
     )
 
     @api.model
-    def systray_get_activities(self):
+    def _get_activity_groups(self):
         if not self.env.context.get("team_activities"):
-            return super().systray_get_activities()
+            return super()._get_activity_groups()
         query = """SELECT m.id, count(*), act.res_model as model,
                     CASE
                         WHEN %(today)s::date -
@@ -44,7 +44,11 @@ class ResUsers(models.Model):
         activity_data = self.env.cr.dictfetchall()
         model_ids = [a["id"] for a in activity_data]
         model_names = {
-            n[0]: n[1] for n in self.env["ir.model"].sudo().browse(model_ids).name_get()
+            n["id"]: n["display_name"]
+            for n in self.env["ir.model"]
+            .sudo()
+            .browse(model_ids)
+            .read(["id", "display_name"])
         }
         user_activities = {}
         for activity in activity_data:
@@ -63,7 +67,7 @@ class ResUsers(models.Model):
                     "planned_count": 0,
                 }
             user_activities[activity["model"]][
-                "%s_count" % activity["states"]
+                f"{activity['states']}_count"
             ] += activity["count"]
             if (
                 activity["states"] in ("today", "overdue")
